@@ -8,39 +8,14 @@ const API_URL = 'https://jsonplaceholder.typicode.com';
 // le pego a otra api para tomar imagenes 
 let cont = 0;
 const tenphotos = [];
- fetch(`${API_URL}/photos`)
-    .then((response) => response.json())
-    .then((photos) => {
-        // console.log(photos[cont])
-        while (cont < 10 ){
-            // console.log(cont)
-            photos.forEach(photo => {
-                // tenphotos.push(photo.id[cont])
-                // ++cont
-                if (cont < 10){
-                    // console.log(photo.id);
-                    // $("#app").append(`<img src="${photo.url}" class="card-img-top" alt="...">`)
-                    ++cont;
-                    tenphotos.push(photo.url)
-                    // console.log(typeof(photo))
-                }
 
-            })
-        }
-
-    })
-
-// *****************************
-//  aca estaba intentando traducir esto a async/await
-// *****************************
-// const getFotos = async () => {
-//     try {
-//         const resFotos = await fetch(`${API_URL}/photos`)
-//         const fotos = await resFotos.json()
-//         console.log('fotos res:' ,fotos)
+//  fetch(`${API_URL}/photos`)
+//     .then((response) => response.json())
+//     .then((photos) => {
+//         // console.log(photos[cont])
 //         while (cont < 10 ){
 //             // console.log(cont)
-//             fotos.forEach(photo => {
+//             photos.forEach(photo => {
 //                 // tenphotos.push(photo.id[cont])
 //                 // ++cont
 //                 if (cont < 10){
@@ -53,10 +28,36 @@ const tenphotos = [];
 
 //             })
 //         }
-//     } catch (eror) {
-//         console.log('getFoto error: ', eror)
-//     }
-// }
+
+//     })
+
+// *****************************
+//  aca estaba intentando traducir esto a async/await
+// *****************************
+const getFotos = async () => {
+    try {
+        const resFotos = await fetch(`${API_URL}/photos`)
+        const fotos = await resFotos.json()
+        // console.log('fotos res:' ,fotos)
+        while (cont < 10 ){
+            // console.log(cont)
+            fotos.forEach(photo => {
+                // tenphotos.push(photo.id[cont])
+                // ++cont
+                if (cont < 10){
+                    // console.log(photo.id);
+                    // $("#app").append(`<img src="${photo.url}" class="card-img-top" alt="...">`)
+                    ++cont;
+                    tenphotos.push(photo.url)
+                    // console.log(typeof(photo))
+                }
+
+            })
+        }
+    } catch (eror) {
+        console.log('getFoto error: ', eror)
+    }
+}
 console.log((tenphotos));
 
 
@@ -65,7 +66,9 @@ console.log('************consumiendo la api de usuarixs************')
 // usando js puro con elementos del DOM
 // const HTMLResponse = document.querySelector('#app');
 // const template = document.createElement('ul');
-fetch(`${API_URL}/users`)
+const buildCard = async () => {
+    const fotos = await getFotos()
+    fetch(`${API_URL}/users`)
     .then((response) => response.json())
         .then((users) => {
             // console.log(typeof(users))
@@ -99,7 +102,9 @@ fetch(`${API_URL}/users`)
             // const template = users.map((user) => `<li>${user.name}</li>`);
             // HTMLResponse.innerHTML = `<ul>${template}</ul>`;
         });
+}
 
+buildCard();
 
 
 // --------------------------------
